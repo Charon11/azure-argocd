@@ -1,7 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aks-helloworld  
+  name: aks-helloworld
+  namespace: aks-test
 spec:
   replicas: 1
   selector:
@@ -24,7 +25,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: aks-helloworld  
+  name: aks-helloworld
+  namespace: aks-test
 spec:
   type: ClusterIP
   ports:
@@ -36,6 +38,7 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: aks-helloworld
+  namespace: aks-test
   annotations:
     kubernetes.io/ingress.class: addon-http-application-routing
 spec:
