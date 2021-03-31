@@ -9,14 +9,14 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: aks-helloworld
+      app: aks-helloworld-reloader
   template:
     metadata:
       labels:
-        app: aks-helloworld
+        app: aks-helloworld-reloader
     spec:
       containers:
-      - name: aks-helloworld
+      - name: aks-helloworld-reloader
         image: mcr.microsoft.com/azuredocs/aks-helloworld:v1
         ports:
         - containerPort: 80
@@ -32,7 +32,7 @@ spec:
           valueFrom:
             configMapKeyRef:
               name: custom-config
-              key: test
+              key: title
 ---
 apiVersion: v1
 kind: Service
