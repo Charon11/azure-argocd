@@ -30,7 +30,7 @@ spec:
           valueFrom:
             configMapKeyRef:
               name: custom-config
-              key: test
+              key: title
 ---
 apiVersion: v1
 kind: Service
