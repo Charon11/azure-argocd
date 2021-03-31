@@ -4,4 +4,4 @@ metadata:
   name: custom-config
   namespace: aks-test
 data:
-  title: "Welcome to AKS with ArgoCD"
+  title: "Welcome to AKS with ArgoCD Realoded"
