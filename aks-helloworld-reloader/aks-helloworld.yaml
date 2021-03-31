@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aks-helloworld-reloader
+  namespace: aks-test
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aks-helloworld
+  template:
+    metadata:
+      labels:
+        app: aks-helloworld
+    spec:
+      containers:
+      - name: aks-helloworld
+        image: mcr.microsoft.com/azuredocs/aks-helloworld:v1
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"   
+        env:
+        - name: TITLE
+          valueFrom:
+            configMapKeyRef:
+              name: custom-config
+              key: test
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aks-helloworld-reloader
+  namespace: aks-test
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: aks-helloworld-reloader
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: aks-helloworld-reloader
+  namespace: aks-test
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: aks-helloworld-reloader.57a7127dd6cb452b952f.francecentral.aksapp.io
+    http:
+      paths:
+      - backend:
+          serviceName: aks-helloworld-reloader
+          servicePort: 80
+        path: /
