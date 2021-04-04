@@ -4,5 +4,6 @@ kind: Kustomization
 bases:
   - namespace.yaml
   - https://raw.githubusercontent.com/indeedeng/k8dash/master/kubernetes-k8dash.yaml
+  - ingress.yaml
 
 namespace: k8dash
