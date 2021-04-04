@@ -11,5 +11,6 @@ spec:
     http:
       paths:
       - backend:
+          path: /
           serviceName: k8dash
-          servicePort: http
+          servicePort: 80
