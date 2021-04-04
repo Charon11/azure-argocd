@@ -1,0 +1,15 @@
+kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+metadata:
+  name: k8dash-http
+  namespace: k8dash
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: k8dash.57a7127dd6cb452b952f.francecentral.aksapp.io
+    http:
+      paths:
+      - backend:
+          serviceName: k8dash
+          servicePort: http
