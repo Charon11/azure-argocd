@@ -3,3 +3,4 @@ kind: Kustomization
 
 bases:
   - https://github.com/kubenav/deploy/kustomize
+  - ingress.yaml
