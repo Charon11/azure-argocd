@@ -1,0 +1,16 @@
+kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+metadata:
+  name: kubecost
+  namespace: kubecost
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: kubecost.57a7127dd6cb452b952f.francecentral.aksapp.io
+    http:
+      paths:
+      - backend:
+          serviceName: kubecost-cost-analyzer
+          servicePort: 9090
+        path: /
