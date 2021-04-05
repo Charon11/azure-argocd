@@ -6,4 +6,4 @@ bases:
   - https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/master/kubecost.yaml
   - ingress.yaml
 
-namespace: k8dash
+namespace: kubecost
