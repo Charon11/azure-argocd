@@ -1,10 +1,1 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-spec:
-  source:
-    plugin:
-      env:
-        - name: FOO
-          value: bar
-        - name: REV
-          value: test-$ARGOCD_APP_REVISION
+
