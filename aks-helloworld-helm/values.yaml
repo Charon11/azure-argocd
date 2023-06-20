@@ -14,6 +14,8 @@ image:
 nameOverride: ""
 fullnameOverride: ""
 
+configMapData:
+  title: "Welcome to AKS with ArgoCD Helm"
 
 podAnnotations: {}
 
