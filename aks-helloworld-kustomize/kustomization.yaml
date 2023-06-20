@@ -5,4 +5,3 @@ kind: Kustomization
 resources:
   - ./base/aks-helloworld.yaml
   - ./base/cm.yaml
-  - ./base/secret.yaml

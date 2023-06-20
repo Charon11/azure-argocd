@@ -28,7 +28,7 @@ spec:
         env:
         - name: TITLE
           valueFrom:
-            secretKeyRef:
+            configMapKeyRef:
               name: custom-config
               key: title
 ---
