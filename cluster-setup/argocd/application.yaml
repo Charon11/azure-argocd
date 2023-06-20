@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: plugin-demo
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: test-plugin
+    plugin: {}
+    repoURL: https://github.com/Charon11/azure-argocd.git
+    targetRevision: test
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
