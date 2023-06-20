@@ -29,16 +29,14 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          env:
+          - name: TITLE
+            valueFrom:
+              configMapKeyRef:
+                name: {{ include "aks-helloworld-helm.fullname" . }}-config
+                key: title
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
