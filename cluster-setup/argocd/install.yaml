@@ -2679,7 +2679,33 @@ spec:
           name: gpg-keyring
         - mountPath: /app/config/reposerver/tls
           name: argocd-repo-server-tls
+      - name: my-plugin
+        command: [/var/run/argocd/argocd-cmp-server] # Entrypoint should be Argo CD lightweight CMP server i.e. argocd-cmp-server
+        image: busybox # This can be off-the-shelf or custom-built image
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 999
+        volumeMounts:
+          - mountPath: /home/argocd/cmp-server/plugins
+            name: plugins
+          # Remove this volumeMount if you've chosen to bake the config file into the sidecar image.
+          - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+            subPath: plugin.yaml
+            name: my-plugin-config
+          # Starting with v2.4, do NOT mount the same tmp volume as the repo-server container. The filesystem separation helps 
+          # mitigate path traversal attacks.
+          - mountPath: /tmp
+            name: cmp-tmp
       volumes:
+      - configMap:
+          name: my-plugin-config
+        name: my-plugin-config
+      - emptyDir: {}
+        name: cmp-tmp
+      - emptyDir: {}
+        name: var-files
+      - emptyDir: {}
+        name: plugins
       - configMap:
           name: argocd-ssh-known-hosts-cm
         name: ssh-known-hosts
