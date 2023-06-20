@@ -29,8 +29,18 @@ spec:
         - name: TITLE
           valueFrom:
             configMapKeyRef:
-              name: custom-config
+              name: custom-config-k8s
               key: title
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-config-k8s
+  namespace: aks-test
+data:
+  title: "Welcome to AKS with ArgoCD K8S"
+
 ---
 apiVersion: v1
 kind: Service
