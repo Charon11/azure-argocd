@@ -50,8 +50,8 @@ metadata:
   name: aks-helloworld
   namespace: aks-test
   annotations:
-    ingress.kubernetes.io/force-ssl-redirect: 'true'
-    kubernetes.io/ingress.class: addon-http-application-routing
+    ingress.kubernetkubernetes.io/ingress.class: addon-http-application-routinges.io/force-ssl-redirect: 'true'
+    
 spec:
   rules:
   - host: aks-helloworld.b853740bf1c7416a8df0.francecentral.aksapp.io
