@@ -4,7 +4,7 @@ metadata:
   name: aks-helloworld
   namespace: aks-test
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: aks-helloworld
