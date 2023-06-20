@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "aks-helloworld-helm.fullname" . }}
+  namespace: "{{ .Values.namespace }}"
   labels:
     {{- include "aks-helloworld-helm.labels" . | nindent 4 }}
 spec:
