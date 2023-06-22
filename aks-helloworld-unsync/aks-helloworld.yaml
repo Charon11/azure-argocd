@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aks-helloworld-unsync
+  namespace: aks-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: aks-helloworld-unsync
+  template:
+    metadata:
+      labels:
+        app: aks-helloworld-unsync
+    spec:
+      containers:
+      - name: aks-helloworld-unsync
+        image: mcr.microsoft.com/azuredocs/aks-helloworld:v1
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"   
+        env:
+        - name: TITLE
+          valueFrom:
+            configMapKeyRef:
+              name: custom-config-k8s
+              key: title
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-config-k8s
+  namespace: aks-test
+data:
+  title: "Welcome to AKS with ArgoCD K8S"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aks-helloworld-unsync
+  namespace: aks-test
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: aks-helloworld-unsync
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aks-helloworld-unsync
+  namespace: aks-test
+  annotations:
+    ingress.kubernetes.io/force-ssl-redirect: 'true'
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: aks-helloworld-unsync.b853740bf1c7416a8df0.francecentral.aksapp.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: aks-helloworld-unsync
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
