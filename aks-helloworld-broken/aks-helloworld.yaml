@@ -1,4 +1,4 @@
-apiVersion: apps/v6
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: aks-helloworld-broken
