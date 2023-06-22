@@ -29,14 +29,14 @@ spec:
         - name: TITLE
           valueFrom:
             configMapKeyRef:
-              name: custom-config-k8s
+              name: custom-config-broken
               key: title
 
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: custom-config-k8s
+  name: custom-config-broken
   namespace: aks-test
 data:
   title: "Welcome to AKS with ArgoCD K8S"
