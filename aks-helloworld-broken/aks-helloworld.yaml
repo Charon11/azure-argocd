@@ -1,0 +1,76 @@
+apiVersion: apps/v6
+kind: Deployment
+metadata:
+  name: aks-helloworld-broken
+  namespace: aks-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: aks-helloworld-broken
+  template:
+    metadata:
+      labels:
+        app: aks-helloworld-broken
+    spec:
+      containers:
+      - name: aks-helloworld-broken
+        image: mcr.microsoft.com/azuredocs/aks-helloworld:v1
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"   
+        env:
+        - name: TITLE
+          valueFrom:
+            configMapKeyRef:
+              name: custom-config-k8s
+              key: title
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-config-k8s
+  namespace: aks-test
+data:
+  title: "Welcome to AKS with ArgoCD K8S"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aks-helloworld-broken
+  namespace: aks-test
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: aks-helloworld-broken
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aks-helloworld-broken
+  namespace: aks-test
+  annotations:
+    ingress.kubernetes.io/force-ssl-redirect: 'true'
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: aks-helloworld-broken.b853740bf1c7416a8df0.francecentral.aksapp.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: aks-helloworld-broken
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
